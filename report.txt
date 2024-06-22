@@ -1,0 +1,26 @@
+stream assembler:
+code is a stream reassembler, which is class that takes stream data and reassembles it to contiguous stream. 
+The class hasbuffer of certain size,  will write any contiguous data in the buffer to the output stream. 
+If the data non contiguous, the class will store it map until it get reassembled. The class also have wait index,
+ which is index of the next byte that the class is expected to receive. 
+this class does not write any data to the output stream till it havr the data at the wait index.
+
+wrapping integer:
+
+summary, the unwrap() function take WrappingInt32, an initial sequence number (isn), and a checkpoint sequence number as 
+input and returns the 64-bit sequence number that wrap the given WrappingInt32 and closest to the checkpoint sequence number.
+
+In short:
+
+Calculate relative sequence number `n_mod`.
+Compare `n_mod` into `modulus_checkpoint` and `base_checkpoint` to determine which is thecase applies.
+Return `n_mod` plusor minus base sequence number based on the case.
+The unwrap() function is used toensure that the sequence numbers used in TCPconsistent and unambiguous.
+
+
+tcp:
+TCPReceiver receives TCP segments and reassembles them into a contiguous stream. 
+It has a buffer and a map to store data. It uses absolute sequence number to index into the buffer and the map.
+ It returns the next sequence number that the receiver expects to receive and the amount of data that the receiver can receive before the buffer is full.
+it uses flags to ensure the propagation of data like syn and fin
+it write the stream untl data given become empty using fin flag
